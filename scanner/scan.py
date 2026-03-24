@@ -76,7 +76,12 @@ def run_webtech(target):
 def run_scan(target):
     scanner = nmap.PortScanner()
     scanner.scan(target, '1-1024')
-    scanned_host = list(scanner.all_hosts())[0] # Get the first scanned IP address from the scan results
+    hosts = list(scanner.all_hosts()) # Get the first scanned IP address from the scan results
+    if not hosts:
+        return {"target": target, "error": "Host not found or unreachable"}
+    
+    
+    scanned_host = hosts[0]
     result = scanner[scanned_host] 
     
     parsed = {
