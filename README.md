@@ -12,8 +12,7 @@ A web-based security scanner built with Python and React. WebSecure automates co
 
 **Frontend**
 - React + Vite
-- Plain CSS (glassmorphism design)
-- Syne + DM Mono fonts
+
 
 ## Key Features
 
