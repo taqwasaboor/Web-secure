@@ -17,7 +17,7 @@ def get_severity(port, state):
 
 def run_sqlmap(target):
     result = subprocess.run( #run command in terminal
-        ["python", r"C:\Users\LENOVO\Downloads\sqlmapproject-sqlmap-1.10.2-20-gc2f8697\sqlmapproject-sqlmap-c2f8697\sqlmap.py"], #this command opne by one will run in terminal or sqlmap.py 
+        ["sqlmap" , "u", target, "--batch", "--output-dir=/tmp/sqlmap"], #this command opne by one will run in terminal or sqlmap.py 
         capture_output=True, #captuyre output is a built in subprocess parameter which tells stdout and stderr
         text=True, #return output as string or text
         timeout=300
@@ -67,7 +67,7 @@ def run_webtech(target):
     except Exception as e:
         return{
             "target": target,
-            "error": st(e) #ERROR
+            "error": str(e) #ERROR
         }
         
         
@@ -106,10 +106,16 @@ def run_scan(target):
 def run_full_scan(target):
     print(f"[*] starting full scan on {target}")
     
+    #strip http:// or #strip https:// for tools that need raw hostname
+    clean_target = target.replace("https://", "").replace("http://", "").rstrip("/") #remove protocol prefix
+
+    #build full url for webtech
+    web_target = target if target.startswith("http") else f"http://{target}" # ensure webtech gets a full url
+    
     result = {
         "target": target,
-        "nmap": run_scan(target),
-        "webtech": run_webtech(f"http://{target}"),
-        "sslyze": run_sslyze(target)
+        "nmap": run_scan(clean_target),
+        "webtech": run_webtech(web_target),
+        "sslyze": run_sslyze(clean_target)
     }
     return result

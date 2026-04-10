@@ -13,8 +13,12 @@ function ScanCard({ onResults }) {
     setLoading(true)
     onResults(null) // clear previous results
 
-    // calls our FastAPI backend
-    const response = await fetch(`http://127.0.0.1:8000/scan/${target}`)
+    // sends target as JSON body instead of URL path to avoid slash issues
+    const response = await fetch('http://127.0.0.1:8000/scan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' }, // tell server we're sending JSON
+      body: JSON.stringify({ target }) // wrap target in object
+    })
     const data = await response.json()
 
     onResults(data) // send results up to App

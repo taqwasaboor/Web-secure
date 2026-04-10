@@ -10,7 +10,7 @@ app = FastAPI() #CREATING FAST API APP OBJECT
 #allow cross origin requests so the react which is running on different port can interact with this api
 app.add_middleware( #calling this fucntion that exist on app object
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5174"], #this url is allowed to make request
+    allow_origins=["*"], #this url is allowed to make request
     allow_methods=["*"], #allows http methis such as get, post, put, delete
     allow_headers=["*"], #all headers are allowed to request
 )
